@@ -1,0 +1,36 @@
+// maximum sum circular subarray
+class Solution {
+    // kadane's algo
+    public int kadane(int[] nums) {
+        int local = nums[0];
+        int global = nums[0];
+        for (int i = 1; i < nums.length; i++) {
+            local = Math.max(nums[i], local + nums[i]);
+            global = Math.max(global, local);
+        }
+        return global;
+    }
+
+    // case 1: max subarray sum in [0 .. n - 1]
+    // i.e. kadane's algo
+    // case 2. circular subarray in [0 .. |  n - 1 .. | .. 2 * n - 1]
+    // i.e. total sum - min subarray sum in [0 .. n - 1]
+    public int maxSubarraySumCircular(int[] nums) {
+        int n = nums.length;
+        // use kadane's algo to find out max sub array sum (case 1)
+        int maxSubArraySum = kadane(nums);
+        // handle cases like [-3,-2,-3]
+        if (maxSubArraySum < 0) return maxSubArraySum;
+        // calculate the total sum
+        int totalSum = 0;
+        // in order to use the same kadane function, we flip the sign
+        for (int i = 0; i < n; i++) {
+            totalSum += nums[i];
+            nums[i] = -nums[i];
+        }
+        // use kadane's algo to find out min sub array sum
+        int minSubArraySum = kadane(nums);
+        // compare case 1 & case 2, take the max
+        return Math.max(maxSubArraySum, totalSum + minSubArraySum);
+    }
+}
