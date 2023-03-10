@@ -1,0 +1,29 @@
+class Solution 
+{
+    List<Integer> li = null ;
+
+    public Solution(ListNode head) 
+    {
+        li = new ArrayList<Integer>();
+        ListNode temp = head ;
+        while(temp != null)
+        {
+            li.add(temp.val);
+            temp = temp.next ;
+        }
+    }
+    
+    public int getRandom() 
+    {
+        int max = li.size() ;
+        int min = 0 ;
+        int range = max - min + 1;
+            
+        int rand = (int)(Math.random() * range) + min;
+        while( rand >= li.size() )
+        {
+            rand = (int)(Math.random() * range) + min;
+        }
+        return li.get(rand) ;
+    }
+}
