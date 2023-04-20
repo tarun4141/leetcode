@@ -1,0 +1,25 @@
+class Solution {
+    public int maxLength = 0;
+    
+    public void solve(TreeNode root, int dir, int len) {
+        if (root == null) {
+            return;
+        }
+        maxLength = Math.max(maxLength, len);
+        
+        if (dir == 1) { //if we are at right node, then 
+            solve(root.left, dir^1, len + 1);  //change the dir (dir^1) and len++ 
+            solve(root.right, dir, 1);  //if again go to right then len is 1 as it is not a zigzag path
+        }
+         else { //dir==0 means if we are at left node then,          
+            solve(root.left, dir, 1);   //if going to left node, then len is 1 as it is not a zigzag path
+            solve(root.right, dir^1, len + 1); //change the dir (dir^1) and len++
+        }
+    }
+    
+    public int longestZigZag(TreeNode root) {
+        solve(root, 0, 0);  //root and 0 means going to node left by doing left traversal, and maxlen is 1
+        solve(root, 1, 0);  //root and 1 means going to node right by doing right traversal, and maxlen is 1
+        return maxLength;
+    }
+}
