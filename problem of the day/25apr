@@ -1,0 +1,23 @@
+class SmallestInfiniteSet {
+    boolean[] set;
+    int smallest;
+    public SmallestInfiniteSet() {
+        set = new boolean[1000];
+        smallest = 0;
+    }
+    
+    public int popSmallest() {
+        while(set[smallest])
+        {
+            smallest++;
+        }
+        set[smallest] = true;
+        return ++smallest;
+    }
+    
+    public void addBack(int num) {
+      num--;
+       set[num ] = false;
+       if(num <smallest)smallest = num;
+    }
+}
