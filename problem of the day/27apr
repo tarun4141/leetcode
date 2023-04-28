@@ -1,0 +1,43 @@
+class Solution {
+
+    public int bulbSwitch(int n) {
+        
+        /*
+                         NOTE 
+
+            which bulb will be on or off , it will depend on the number of factors of that bulb ; 
+            
+           (1) if number of factors are even , it means that bulb is toggled even number of times , 
+            and even number of toggling means bulb will be in same state , as it was before .
+
+
+           (2) if number of factors are odd , it means that bulb has toggled odd number of times , 
+            and odd number of togglind means , bulb will stop in opposite state of the previous
+            state ; 
+
+
+
+
+        */
+
+
+        // NOTE ; ONLY PERFECT SQAURES HAVE ODD NUMBERS OF FACTORS ; 
+
+      
+      int answer = 0 ; 
+
+        for ( int i = 1 ; i <= n ; i++ )
+        {
+            if( i*i <= n )
+            answer++ ;
+            else 
+            return answer ;  
+        }
+
+
+        return answer ; 
+    }
+
+
+
+}
