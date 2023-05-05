@@ -1,0 +1,19 @@
+class Solution {
+    public String predictPartyVictory(String senate) {
+        LinkedList<Integer> Radiant = new LinkedList<>();
+        LinkedList<Integer> Dire = new LinkedList<>();
+        char[] ch = senate.toCharArray();
+            for(int i = 0; i < ch.length; i++){
+                if(ch[i] == 'R') Radiant.add(i);            
+                else             Dire.add(i);
+            }
+
+            while(!Radiant.isEmpty() && !Dire.isEmpty()){
+                int i = Radiant.poll();
+                int j = Dire.poll();
+                if(i < j) Radiant.add(i+senate.length());
+                else      Dire.add(j+senate.length());
+            }
+            return Radiant.isEmpty() ? "Dire" : "Radiant";
+    }
+}
