@@ -1,0 +1,31 @@
+class Solution {
+    public int maxVowels(String s, int k) {
+        char[] ar=s.toCharArray();     
+        int cur=0;
+     
+        boolean[] vow =new boolean[26];
+        vow['a'-'a']=true;
+        vow['e'-'a']=true;
+        vow['i'-'a']=true;
+        vow['o'-'a']=true;
+        vow['u'-'a']=true;
+        
+        for(int i=0;i<k;i++){
+            if(vow[ar[i]-'a']){
+                cur++;
+            }
+        }
+        int max=cur;
+        for(int i=k;i<ar.length;i++){
+            if(vow[ar[i]-'a']){
+                cur++;
+            }
+            if(vow[ar[i-k]-'a']){
+                cur--;
+            }
+            max=Math.max(max,cur);
+            if(max==k) return max;
+        }
+        return max;
+    }
+}
