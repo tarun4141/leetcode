@@ -1,0 +1,15 @@
+class Solution {
+    public int diagonalSum(int[][] mat) {
+        int n = mat.length;
+        int sumatory = 0, upperDiagonalRow = 0, lowerDiagonalRow = n - 1;
+        for (int i = 0; i < n; i++) {
+            sumatory += mat[upperDiagonalRow][i];
+            if (upperDiagonalRow != lowerDiagonalRow) {
+                sumatory += mat[lowerDiagonalRow][i];
+            } 
+            upperDiagonalRow++;
+            lowerDiagonalRow--;
+        }
+        return sumatory;
+    }
+}
