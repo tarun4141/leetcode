@@ -1,0 +1,30 @@
+class Solution {
+    public long mostPoints(int[][] que) {
+        int n=que.length;
+        int m=que[0].length;
+        long[] dp=new long[n];
+        for(int i=0;i<n;i++){
+            dp[i]=-1;
+        }
+       
+        return f(0,que,dp);
+
+        
+    }
+    public long f(int ind,int[][] que,long[] dp)
+    {
+        if(ind>=que.length)
+        {
+            return 0;
+        }
+        if(dp[ind]!=-1)
+        {
+            return dp[ind];
+        }
+        long pick=que[ind][0]+f(ind+1+que[ind][1],que,dp);
+        long notpick=f(ind+1,que,dp);
+        
+         dp[ind]=Math.max(pick,notpick);
+         return dp[ind];
+    }
+}
