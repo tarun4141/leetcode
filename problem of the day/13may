@@ -1,0 +1,30 @@
+class Solution {
+    int MOD = 1000000007;
+    public int countGoodStrings(int low, int high, int zero, int one) {
+        Integer[] memo = new Integer[high+1];
+        return dfs(low,high,zero,one,0,memo);
+    }
+
+    public int dfs(int low,int high,int zero, int one,int idx,Integer[] memo)
+    {
+        if(idx>high)
+        {
+            return 0;
+        }
+
+        if(memo[idx]!=null)
+        {
+            return memo[idx];
+        }
+
+        int count = 0;
+        if(idx>=low&&idx<=high)
+        {
+            count=(count+1)%MOD;
+        }
+        count = (count+dfs(low,high,zero,one,idx+zero,memo))%MOD;
+        count=  (count+dfs(low,high,zero,one,idx+one,memo))%MOD;
+
+        return memo[idx]=count;
+    }
+}
