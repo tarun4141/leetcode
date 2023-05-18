@@ -1,0 +1,25 @@
+class Solution {
+    public int pairSum(ListNode head) 
+    {
+        ListNode fast=head;
+        ListNode slow=head;
+        ListNode prev=null;
+        ListNode temp=null;
+        while(fast!=null)
+        {
+            prev=slow;
+            slow=slow.next;
+            fast=fast.next.next;
+            prev.next=temp;
+            temp=prev;
+        }
+        int ans=Integer.MIN_VALUE;
+        while(slow!=null)
+        {
+            ans=Math.max(ans,prev.val+slow.val);
+            slow=slow.next;
+            prev=prev.next;
+        }
+        return ans;
+    }
+}
