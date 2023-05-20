@@ -1,0 +1,45 @@
+class Solution {
+    public boolean isBipartite(int[][] graph) {
+        int n=graph.length;
+        // dp to store group assigned 
+        // true if group A
+        // false if group B
+        // null means we can assign it according to the previous
+        Boolean[] dp=new Boolean[n];
+        
+        // for dfs we start and every other node which cannot be traversed together will be traversed with first node assigning to Group A ie true
+        for(int i=0;i<n;i++){
+            //if not assigned a group assign true and start dfs
+            if(dp[i]==null){
+                 dp[i]=true;
+                if(!helper(i,graph,dp,true)){
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+    public boolean helper(int i,int[][] graph,Boolean[] dp,boolean curr){
+        //if they dont match return false
+        if(dp[i]!=curr) return false;
+
+        //traverse all nodes and check if not assigned then assign the opposite group ie if false then true and if true then false
+        for(int num:graph[i]){
+            //if not assign assign the opposite group to the current group then traverse
+            if(dp[num]==null){
+                dp[num]=!curr;
+                // if any node return false return false
+                if(!helper(num,graph,dp,!curr)){
+                    return false;
+                }
+            }else{
+                //if already assigned a group check if it is not the same group as current node 
+                if(dp[num]!=!curr){
+                    return false;
+                }
+            }
+        }
+        //if all nodes satisfy return true
+        return true;
+    }
+}
