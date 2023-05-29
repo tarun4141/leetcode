@@ -1,0 +1,81 @@
+class Solution {
+
+    Map<String, Integer> memo;
+
+    int helper(int[] cuts, int start, int end){
+
+        int cutLen = cuts.length;
+
+        //rather having a proper 'length' as a parameter we maintain a 
+        //range which will tell the length of the segments (end - start)
+        //where start or end will tell starting or ending of that segment
+        //if a cuts[i] is made on segment(start, end) then this cuts[i]
+        //will create two different cut segement that might have diff lengths
+        //where cuts[i] becomes ending of the first cut segment AND starting
+        //of the second cut segment
+        //ex: initial segment length = 7 i.e, [start, end] = [0, 7]
+        //assume we made a cuts[i] = 3, it will create two segments now
+        //first cut segment = [start, cuts[i]] = [0, 3]
+        //second cut segment = [cuts[i], end] = [3, 7]
+        int currSegmentLength = (end - start);
+
+        //we can make make profit/reduce loss by making cuts on the
+        //given segment having some length as 'length'(==> (end - start))
+        //now think it this way, a segment length of 1 can't be further
+        //divided so if we can't make cuts then our profit becomes 0,
+        //hence return 0
+        if(currSegmentLength == 1) return 0;
+
+        //Map is mode memory optimized as compared to 2D memo array
+        //due to large 'n' size
+        String key = start + "," + end;
+        if(memo.containsKey(key)) return memo.get(key);
+
+        //our aim is to minimize our cost on making cuts, hence
+        //the initial value should be a INT_MAX value, but also
+        //to keep in mind that we might come accros a situation
+        //where a cut is not possible on the curr segment length
+        //in that case minCost should then be 0
+        int minCost = Integer.MAX_VALUE;
+
+        //any cut can be made in any order, hence to try all 
+        //possibilties loop for all the cuts that we have but
+        //maintain the check is cuts[i] is valid cut on the curr 
+        //cut segment (start, end)
+        for(int index = 0; index < cutLen; index++){
+
+            //any cut of cuts[i] can only be made on a cut segment of length
+            //'length' ==> (end - start) if this cuts[i] lie within the range
+            //of (start, end) both non-inclusive
+            //ex: a cut segment length = 3 ==> (start, end) = (2, 5)
+            //and a cuts[i] = 1 then its not possible to make this cut
+            //in-between the curr cut segment
+            //so we need to check if a cut of cuts[i] falls within the range
+            //of the cut segment length
+            if(cuts[index] > start && cuts[index] < end) {
+                //take the min cost of making cuts
+                minCost = Math.min(minCost,
+                //cost as curr cut segment
+                //+ cost in making further cuts on first cut segment (start, cuts[index])
+                //+ cost in making further cuts on second cut segment (cuts[index], end)
+                currSegmentLength
+                + helper(cuts, start, cuts[index])
+                + helper(cuts, cuts[index], end));
+            }
+        }
+
+        //as mentioned, if any cuts is not possible then minCost should
+        //be returned 0
+        minCost = minCost == Integer.MAX_VALUE ? 0 : minCost;
+
+        //cache it
+        memo.put(key, minCost);
+
+        return minCost;
+    }
+
+    public int minCost(int n, int[] cuts) {
+        memo = new HashMap<>();
+        return helper(cuts, 0, n);
+    }
+}
