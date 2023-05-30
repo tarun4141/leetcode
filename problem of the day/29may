@@ -1,0 +1,26 @@
+class ParkingSystem {
+        int a[];
+    public ParkingSystem(int big, int medium, int small) {
+        // intilize the array with given value
+        a=new int[]{big,medium,small};
+    }
+    
+    public boolean addCar(int carType) {
+        if(carType==1){
+            if(a[0]>0){   // space available of big car
+                a[0]--;   // space reduces by one
+                return true;
+            }else return false;  // if no space is avaible for big car
+        }else if(carType==2){  // for medium car
+            if(a[1]>0){    // if space is available for medium car
+                a[1]--;    //  reduce the space by one
+                return true;
+            }else return false;  // if no space available
+        }else {
+                if(a[2]>0){   // similary of small cars
+                        a[2]--;
+                        return true;
+                }else return false;
+        }
+    }
+}
