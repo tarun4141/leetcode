@@ -1,0 +1,69 @@
+class Node{
+    int val;
+    Node next;
+    Node(int val){
+        this.val=val;
+        this.next=null;
+    }
+}
+
+class MyHashSet {
+
+    private Node[] arr;
+    private int n;
+
+    public MyHashSet() {
+        n=100000;
+        arr=new Node[n];
+    }
+    
+    public void add(int key) {
+        int loc=key % n;
+        Node head=arr[loc];
+        if(head==null){
+            arr[loc]=new Node(key);
+            return;
+        }
+        while(head.next!=null){
+            if(head.val==key){
+                return;
+            }
+            if(head.next==null){
+                head.next=new Node(key);
+                return;
+            }
+            head=head.next;
+        }
+    }
+    
+    public void remove(int key) {
+        int loc=key % n;
+        Node head=arr[loc];
+        if(head==null){
+            return;
+        }
+        else if(head.val==key){
+            arr[loc]=head.next;
+            return;
+        }
+        while(head.next!=null){
+            if(head.next.val==key){
+                head.next=head.next.next;
+                break;
+            }
+            head=head.next;
+        }       
+    }
+    
+    public boolean contains(int key) {
+        int loc=key % n;
+        Node head=arr[loc];
+        while(head!=null){
+            if(head.val==key){
+                return true;
+            } 
+            head=head.next;           
+        }
+        return false;
+    }
+}
