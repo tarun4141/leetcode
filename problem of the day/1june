@@ -1,0 +1,52 @@
+class Triplet{
+    int row;
+    int col;
+    int level;
+    public Triplet(int _r,int _c,int _l)
+    {
+        this.row= _r;
+        this.col= _c;
+        this.level= _l;
+    }
+}
+class Solution {
+    public int shortestPathBinaryMatrix(int[][] grid) {
+        PriorityQueue<Triplet> pq= new PriorityQueue<>((a,b) -> a.level - b.level);
+        
+
+        int n= grid.length;
+        int m= grid[0].length;
+        int[][] visited= new int[n][m];
+
+        if(grid[0][0] != 0 || grid[n-1][m-1] != 0) return -1;
+
+        pq.add(new Triplet(0,0,0));
+        visited[0][0]=1;
+
+        int di[] ={0,-1,-1,-1,0,1,1,1};
+        int dj[] ={-1,-1,0,1,1,1,0,-1};
+
+        while(!pq.isEmpty())
+        {
+            Triplet temp = pq.poll();
+            int row= temp.row;
+            int col= temp.col;
+            int level = temp.level;
+
+            if(row == n-1 && col == m-1) return level + 1;
+
+            for(int i=0; i < 8; i++)
+            {
+                int nextRow= row + di[i];
+                int nextCol= col + dj[i];
+                if(nextRow >= 0 && nextCol >= 0 && nextRow < n && nextCol < m && grid[nextRow][nextCol] == 0 && visited[nextRow][nextCol] == 0)
+                {
+                    visited[nextRow][nextCol] = 1 ;
+                    pq.add(new Triplet(nextRow,nextCol, level + 1));
+                }
+            }
+
+        }
+        return -1;
+    }
+}
