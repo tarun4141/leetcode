@@ -1,0 +1,42 @@
+class Solution {
+    public int maxValue(int n, int index, int maxSum) {
+        
+        long s = 1;
+        long e = maxSum;
+
+        long ans = 1;
+
+        while(s<=e){
+
+            long m = s + (e-s)/2;
+
+            long sum = 0;
+
+            if((n-index)>m){
+                sum= m*(m+1)/2 + n-index-m;
+            }else{
+                sum =m*(m+1)/2 - (m-n+index)*(m-n+index+1)/2;
+            }
+
+            long sum1 = (m-1)*(m)/2;
+
+            if(index+1>m){
+                sum1 = (m-1)*(m)/2 + index - m +1;
+            }else{
+                sum1 = (m-1)*(m)/2 - (m-1-index)*(m-index)/2;
+            }
+            
+            sum += sum1;
+
+            if(sum<=maxSum){
+                s = m+1;
+                ans = m;
+            }else{
+                e = m-1;
+            }
+        }
+
+        return (int)ans;
+
+    }
+}
