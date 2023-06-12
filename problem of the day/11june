@@ -1,0 +1,62 @@
+/**class SnapshotArray {
+
+    public SnapshotArray(int length) {
+        
+    }
+    
+    public void set(int index, int val) {
+        
+    }
+    
+    public int snap() {
+        
+    }
+    
+    public int get(int index, int snap_id) {
+        
+    }
+}
+
+
+ * Your SnapshotArray object will be instantiated and called as such:
+ * SnapshotArray obj = new SnapshotArray(length);
+ * obj.set(index,val);
+ * int param_2 = obj.snap();
+ * int param_3 = obj.get(index,snap_id);
+ */
+
+
+
+class SnapshotArray {
+    int snap_id;
+    ArrayList<HashMap<Integer, Integer>> arr;
+    public SnapshotArray(int length) {
+        snap_id = 0;
+        arr = new ArrayList<>();
+        arr.add(new HashMap<Integer, Integer>());
+    }
+    
+    public void set(int index, int val) {
+        // initialize the new object because their will be changes in object that we don't want to reflect to previous object.
+        if(snap_id > 0 && arr.get(snap_id) == arr.get(snap_id - 1))    arr.set(snap_id, new HashMap<>(arr.get(snap_id - 1)));
+        arr.get(snap_id).put(index, val);
+    }
+    
+    public int snap() {
+        snap_id++;
+        //initializing the new Map with same object to save memory if values will change then a new object will be assigned in set function.
+        arr.add(arr.get(snap_id - 1));
+        return snap_id - 1;
+    }
+    
+    public int get(int index, int snap_id) {
+        if(arr.get(snap_id).containsKey(index)) return arr.get(snap_id).get(index);
+        return 0;
+    }
+}
+
+
+
+
+
+
