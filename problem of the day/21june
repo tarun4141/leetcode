@@ -1,0 +1,35 @@
+class Solution {
+    public long minCost(int[] nums, int[] cost) {
+        int low = Integer.MAX_VALUE, high = 0;
+
+       for (var i = 0; i < nums.length; ++i) {
+           low = Integer.min(low, nums[i]);
+           high = Integer.max(high, nums[i]);
+       }
+
+       long minCost = 0L;
+
+        while(low < high) {
+            var mid = (low + high) >>> 1;
+            var costLow = elementCost(nums, cost, mid);
+            var costHigh = elementCost(nums, cost, mid + 1);
+
+            if (costLow > costHigh)
+                low = mid + 1;
+            else 
+                high = mid;
+
+            minCost = Long.min(costLow, costHigh);
+        }  
+
+        return minCost;
+    }
+
+    private long elementCost(int[] nums, int[] cost, int element) {
+        long c = 0;
+        for (var i = 0; i < nums.length; ++i)
+            c += cost[i] * (long) Math.abs(nums[i] - element);
+        
+        return c;
+    }
+}
