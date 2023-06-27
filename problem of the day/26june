@@ -1,0 +1,24 @@
+vclass Solution {
+    public long totalCost(int[] costs, int k, int candidates) {
+        PriorityQueue<Integer> pq = new PriorityQueue<>();
+        PriorityQueue<Integer> pq1 = new PriorityQueue<>();
+        int i = 0,j = costs.length-1,c = 0;
+        long ans = 0;
+        while(c<k){
+            while(pq.size()<candidates && i<=j){
+                pq.offer(costs[i++]);
+            }
+            while(pq1.size()<candidates && j>=i){
+                pq1.offer(costs[j--]);
+            }
+            int first = (pq.size()>0)?pq.peek():Integer.MAX_VALUE;
+            int second = (pq1.size()>0)?pq1.peek():Integer.MAX_VALUE;
+            if(first<=second){
+                ans += pq.remove();
+            }
+            else ans += pq1.remove();
+            c++;
+        }
+        return ans;
+    }
+}
