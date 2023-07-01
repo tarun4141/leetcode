@@ -1,0 +1,50 @@
+class Solution {
+    private static int[][] DIRECTIONS = new int[][] {{1,0},{-1,0},{0,1},{0,-1}};
+
+    public int latestDayToCross(int R, int C, int[][] cells) {
+        boolean[][] blocked = new boolean[R][C];
+        for (int c = 0; c < C; c++) {
+            blocked[0][c] = true;
+        }
+        // 0: water (initial)
+        // 1: land
+        // 2: processed
+        int[][] state = new int[R][C];
+        for (int i = cells.length - 1; i >= 0; i--) {
+            int[] cell = cells[i];
+            // because it is 1-indexed
+            cell[0]--;
+            cell[1]--;
+            state[cell[0]][cell[1]] = 1;
+            if (blocked[cell[0]][cell[1]]) {
+                if (expand(blocked, state, R, C, cell)) {
+                    return i;
+                }
+            }
+            //debug(blocked, R, C, i);
+        }
+        return 0;
+    }
+
+    private boolean expand(boolean[][] blocked, int[][] state, int R, int C, int[] cell) {
+        if (cell[0] == R - 1) {
+            return true;
+        }
+        blocked[cell[0]][cell[1]] = false;
+        state[cell[0]][cell[1]] = 2;
+
+        for (int d = 0; d < DIRECTIONS.length; d++) {
+            int nr = cell[0] + DIRECTIONS[d][0], nc = cell[1] + DIRECTIONS[d][1];
+            if (nr >= 0 && nr < R && nc >= 0 && nc < C && state[nr][nc] < 2) {
+                if (state[nr][nc] == 1) {
+                    if (expand(blocked, state, R, C, new int[] {nr, nc})) {
+                        return true;
+                    }
+                } else {
+                    blocked[nr][nc] = true;
+                }
+            }
+        }
+        return false;
+    }
+}
