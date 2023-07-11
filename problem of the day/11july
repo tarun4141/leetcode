@@ -1,0 +1,99 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+
+class Status {
+    int d;
+    boolean found;
+
+    Status(int d, boolean found) {
+        this.d = d;
+        this.found = found;
+    }
+};
+
+class Solution {
+
+    private void distanceKUtil(TreeNode root, TreeNode target, 
+    Status status, List<Integer> nodes) {
+
+        if (root == null || status.d < 0)
+        return;
+
+        if (root == target) {
+            status.found = true;
+        }
+
+        boolean subTree = status.found;
+        if (subTree) {
+            if (status.d == 0) {
+                nodes.add(root.val);
+            }
+
+            status.d--;
+            int dSoFar = status.d;
+
+            distanceKUtil(root.left, target, status, nodes);
+            status.d = dSoFar;
+
+            distanceKUtil(root.right, target, status, nodes);
+            status.d = dSoFar;            
+        } else {
+            //parentTree
+
+            distanceKUtil(root.left, target, status, nodes);
+
+            if (status.found) {
+                if (status.d == 0) {
+                    nodes.add(root.val);
+                }
+
+                status.d--;
+                int dSoFar = status.d;
+
+                distanceKUtil(root.right, target, status, nodes);
+                status.d = dSoFar;
+            } else {
+                distanceKUtil(root.right, target, status, nodes);
+
+                if (status.found) {
+                    if (status.d == 0) {
+                        nodes.add(root.val);
+                    }
+
+                    status.d--;
+                    int dSoFar = status.d;
+
+                    distanceKUtil(root.left, target, status, nodes);
+                    status.d = dSoFar;
+                }
+            }
+        }
+    }
+
+    public List<Integer> distanceK(TreeNode root, 
+    TreeNode target, int k) {
+
+        List<Integer> nodes = new ArrayList<>();
+        Status status = new Status(k, false);
+
+        distanceKUtil(root, target, status, nodes);
+
+        return nodes;
+    }
+}
