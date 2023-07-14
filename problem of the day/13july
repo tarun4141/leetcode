@@ -1,0 +1,23 @@
+class Solution {
+    public int longestSubsequence(int[] arr, int difference) {
+        int max = Integer.MIN_VALUE;
+        int min = Integer.MAX_VALUE;
+        for (int num : arr) {
+            max = Math.max(max, num);
+            min = Math.min(min, num);
+        }
+
+        int[] dp = new int[max - min + 1]; // Only what needed
+        int ans = 1;
+        for (int i = 0; i < arr.length; i++) {
+            int curr = arr[i] - min;
+            int prev = curr - difference;
+            if (prev >= 0 && prev < dp.length)
+                dp[curr] = dp[prev] + 1; // Solution
+            else
+                dp[curr] = 1;
+            ans = Math.max(ans, dp[curr]);
+        }
+        return ans;
+    }
+}
