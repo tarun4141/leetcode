@@ -1,0 +1,32 @@
+class Solution {
+    public int maximalNetworkRank(int n, int[][] roads) {
+
+        int max = 0;
+        for(int[] rows:roads){
+            for(int x:rows) max = Math.max(x,max);
+        }
+
+        ArrayList<ArrayList<Integer>> list = new ArrayList<>();
+
+        for(int i=0;i<=max;i++){
+            list.add(new ArrayList<>());
+        }
+
+        for(int[] road:roads){
+            list.get(road[0]).add(road[1]);
+            list.get(road[1]).add(road[0]);
+        }
+
+        int maxi = 0;
+
+        for(int i=0;i<list.size();i++){
+            for(int j=i+1;j<list.size();j++){
+                int count = list.get(i).size() + list.get(j).size();
+                if(list.get(i).contains(j)) count--;
+                maxi = Math.max(maxi,count);         
+            }
+        }
+
+        return maxi;
+    }
+}
