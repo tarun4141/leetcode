@@ -1,0 +1,28 @@
+class Solution {
+    public boolean repeatedSubstringPattern(String s) {
+        
+        for(int i = 2; i <= s.length(); i++){
+            boolean temp = true;
+
+            int partSize = s.length() / i;
+
+            if(partSize * i < s.length()) {
+                continue;
+            }
+
+            String partS = s.substring(0, partSize);
+            for(int j = 0; j < i; j++){
+                if(!s.substring(j * partSize, (j+1) * partSize).equals(partS)) {
+                    temp = false;
+                    break;
+                }
+            }
+
+            if(temp) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+}
