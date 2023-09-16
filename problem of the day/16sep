@@ -1,0 +1,53 @@
+class Solution {
+    class pair{
+        int diff;
+        int row;
+        int col;
+        public pair(int diff, int row, int col){
+            this.diff = diff;
+            this.row = row;
+            this.col = col;
+        }
+    }
+    public int minimumEffortPath(int[][] arr) {
+        int n = arr.length;
+        int m = arr[0].length;
+        PriorityQueue<pair> pq = new PriorityQueue<>(new Comparator<pair>(){
+            public int compare(pair p1, pair p2){
+                return p1.diff-p2.diff;
+            }
+        });
+        pq.add(new pair(0,0,0));
+        int dis[][] = new int[n][m];
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                dis[i][j] = Integer.MAX_VALUE;
+            }
+        }
+        dis[0][0] = 0;
+        while(!pq.isEmpty()){
+            pair p = pq.poll();
+            int row = p.row;
+            int col = p.col;
+            int diff = p.diff;
+            int r_vec[] = {-1,0,1,0};
+            int c_vec[] = {0, 1, 0, -1};
+            for(int i=0;i<4;i++){
+                int nrow = row + r_vec[i];
+                int ncol = col + c_vec[i];
+                if(nrow<0 || nrow>=n || ncol<0 || ncol>=m ){
+                    continue;
+                }
+                int ndiff = Math.abs(arr[nrow][ncol] - arr[row][col]);
+                int val = Math.max(dis[row][col],ndiff);
+                if(dis[nrow][ncol] > val)
+                {
+                    dis[nrow][ncol] = val;
+                    pq.add(new pair(val, nrow, ncol));
+                }
+                
+            }
+        }
+        return dis[n-1][m-1];
+    }
+}
