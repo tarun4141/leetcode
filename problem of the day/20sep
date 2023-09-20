@@ -1,0 +1,47 @@
+class Solution {
+    public int minOperations(int[] nums, int x) {
+
+    int sum1=0;
+     for (int i=0;i<nums.length;i++)
+     {
+         sum1+=nums[i];
+     }
+     int k=sum1-x;
+     if(k==0)
+     {
+         return nums.length;
+     }
+
+
+     int len=0;
+     int sum=0;
+
+     HashMap<Integer,Integer> mp=new HashMap<>();
+
+     for(int i=0;i<nums.length;i++)
+     {
+         sum+=nums[i];
+
+         if(sum==k)
+         {
+             len=i+1;
+         }
+        if(mp.containsKey(sum-k))
+         {
+             len=Math.max(len,i-mp.get(sum-k));
+         }
+
+        if(!mp.containsKey(sum))
+         {
+             mp.put(sum,i);
+         }
+
+       
+
+ 
+     }
+    
+   return len>0 ? nums.length-len :-1;
+   
+    }
+}
