@@ -1,0 +1,18 @@
+class Solution {
+    public char findTheDifference(String s, String t) {
+        int sn = s.length();
+        int tn = t.length();
+        if(sn==0 && tn==1){
+            return t.charAt(0);
+        }
+        int ctr = 0;
+        for(int i=0;i<sn;i++){
+            ctr += (s.charAt(i));
+        }
+        for(int i=0;i<tn;i++){
+            ctr -= (t.charAt(i));
+        }
+        ctr *= (-1);
+        return (char)ctr;
+    }
+}
