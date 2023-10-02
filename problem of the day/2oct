@@ -1,0 +1,18 @@
+class Solution {
+    public boolean winnerOfGame(String colors) {
+        if(colors.length()<=2)//if the length is less than equal 2 return false
+        return false;
+        int alice=0,bob=0;//intitalise both score as 0;
+        for(int i=1;i<colors.length()-1;i++){
+            if(colors.charAt(i)=='A'&&colors.charAt(i-1)=='A'&&colors.charAt(i+1)=='A')//condition for alice scoring
+            alice++;
+            if(colors.charAt(i)=='B'&&colors.charAt(i-1)=='B'&&colors.charAt(i+1)=='B')///condition for bob scoring
+            bob++;
+        }
+        if(alice>bob)//if bob scores less than alice then return true sice alice is a winner
+        return true;
+        else
+        return false;
+        
+    }
+}
