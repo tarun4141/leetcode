@@ -1,0 +1,16 @@
+class Solution {
+    public int numIdenticalPairs(int[] nums) {
+        int[] res = new int[101];
+        Arrays.fill(res,0);
+        int ret=0;
+        for(int i : nums){
+            res[i]++;
+        }
+        for(int i : res){
+            if(i>=2){
+                ret = ret+((i*(i-1))/2);
+            }
+        }
+    return ret;
+    }
+}
