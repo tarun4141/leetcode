@@ -1,0 +1,66 @@
+class MyHashMap {
+
+    int arrLen = 10000;
+    Node[] nodes = new Node[arrLen];
+
+    public MyHashMap() {
+    }
+    
+    public void put(int key, int value) {
+        int k = key % arrLen ;
+        if( nodes[k] == null ){
+            nodes[k] = new Node(key,value);
+        }else{
+            Node node = nodes[k];
+            while( node.key != key && node.next != null ){
+                node = node.next;
+            }
+            if( node.key == key ){
+                node.value = value;
+            }else{
+                node.next = new Node(key,value);     
+            }
+        }
+    }
+    
+    public int get(int key) {
+        Node node = nodes[key % arrLen];
+        while( node != null ){
+            if( node.key == key ){
+                return node.value;
+            }else{
+                node = node.next;
+            }
+        }
+        return -1;
+    }
+    
+    public void remove(int key) {
+        int k = key % arrLen ;
+        Node pre = null;
+        Node cur = nodes[k];
+        while( cur != null ){
+            if( cur.key == key ){
+                if( pre == null ){
+                    nodes[k] = cur.next;
+                }else{
+                    pre.next = cur.next;
+                }
+                break;
+            }else{
+                pre = cur;
+                cur = cur.next;
+            }
+        }
+    }
+}
+
+class Node {
+    int key ;
+    int value;
+    Node next;
+    Node(int key , int value){
+        this.key = key;
+        this.value = value;
+    }
+}
