@@ -1,0 +1,55 @@
+class Solution {
+    public int integerBreak(int n) {
+        List<Integer> list = new ArrayList<>(List.of(n));
+        List<Integer> list1 = new ArrayList<>(List.of(n));
+        int aCounter  = 0;
+        if(n==2){
+            return 1;
+        }
+         if(n==3){
+            return 2;
+        }
+
+        boolean check = true;
+        while(check){
+            check = false;
+            for(int i = 0 ; i < list.size();i++){
+                if(list.get(i)%2 == 0 && list.get(i) / 2 > 1){
+                   
+                    list1.set(i,list.get(i) / 2);
+                    list1.add(list.get(i) / 2);
+
+                    check = true;
+                }
+                else if(list.get(i)%2 == 1 && list.get(i) / 2 > 1 ) {
+                      
+
+                    list1.set(i, list.get(i) / 2 + 1);
+                    list1.add(list.get(i) / 2);
+                    check = true;
+                }
+
+            }
+            list = new ArrayList(list1);
+
+        }
+        int answer = 1;
+        for(Integer a : list){
+            if(a==2){
+                aCounter++;
+                 if(aCounter == 3){
+                answer*= 9;
+                aCounter = 0;
+                continue;
+            }
+            continue;
+            }
+           
+            answer *= a;
+        }
+        
+        return aCounter > 0 ? answer * (aCounter * 2 ) : answer;
+
+
+    }
+}
