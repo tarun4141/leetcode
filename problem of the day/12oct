@@ -1,0 +1,60 @@
+/**
+ * // This is MountainArray's API interface.
+ * // You should not implement it, or speculate about its implementation
+ * interface MountainArray {
+ *     public int get(int index) {}
+ *     public int length() {}
+ * }
+ */
+ 
+class Solution {
+    public int findInMountainArray(int target, MountainArray arr) {
+        int peak = peak(arr);
+        if(arr.get(peak)==target)
+        return peak;
+        int k = lbinary(0,peak,target,arr);
+        if(k!=-1)
+        return k;
+        else
+        return rbinary(peak+1,arr.length()-1,target,arr);
+
+    }
+    public int peak(MountainArray arr) {
+        int low = 0;
+        int high = arr.length()-1;
+        while(low<high){
+            int mid = low +(high-low)/2;
+            if(arr.get(mid)<arr.get(mid+1)){
+                low = mid +1;
+            }
+            else{
+                high = mid;
+            }
+        }
+        return low;
+    }
+    public static int lbinary(int low,int high,int target,MountainArray nums){
+        while(low<=high){
+            int mid  = low+(high-low)/2;
+            if(nums.get(mid)==target)
+            return mid;
+            else if(nums.get(mid)>target)
+            high=mid-1;
+            else
+            low=mid+1;
+        }
+        return -1;
+    }
+    public static int rbinary(int low,int high,int target,MountainArray nums){
+        while(low<=high){
+            int mid  = low+(high-low)/2;
+            if(nums.get(mid)==target)
+            return mid;
+            else if(nums.get(mid)>target)
+            low=mid+1;
+            else
+            high=mid-1;
+        }
+        return -1;
+    }
+}
