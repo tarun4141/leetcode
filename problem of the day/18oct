@@ -1,0 +1,50 @@
+class Solution {
+    List<Integer>[] graph;
+    int[] time;
+    int[] dp;
+
+    private int solve(int node) {
+        //Memoization
+        if(dp[node] != -1) {
+            return dp[node];
+        }
+
+        //Recursively trying to solve all the prerequisite 
+        //courses in the max time
+        List<Integer> childs = graph[node];
+        int max = 0;
+        if(childs != null) {
+            for(int child : childs) {
+                max = Math.max(max, solve(child));
+            }
+        }
+
+        //memoizting maximum time to complete current course
+        return dp[node] = time[node-1] + max;
+    }
+
+    public int minimumTime(int n, int[][] relations, int[] time) {
+        graph = new ArrayList[n+1];
+        dp = new int[n+1];
+        Arrays.fill(dp, -1);
+        this.time = time;
+
+        //Building a prerequisite graph
+        for(int i = 0; i < relations.length; i++) {
+            int from = relations[i][0];
+            int to = relations[i][1];
+            if(graph[to] == null) {
+                graph[to] = new ArrayList<>();
+            }
+            graph[to].add(from);
+        }
+
+        int max = 0;
+        //finding max time to complete the all the courses.
+        for(int i = 1; i <= n; i++) {
+            max = Math.max(max, solve(i));
+        }
+
+        return max;
+    }
+}
