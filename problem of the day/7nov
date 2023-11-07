@@ -1,0 +1,39 @@
+class Solution {
+    public int eliminateMaximum(int[] dist, int[] speed) {        
+        Map<Integer, Integer> monstersToKillWithTime = new HashMap<>();
+        int maxTime = 0;
+        for(int i = 0; i< dist.length;i++){
+
+            int timeToKill = (int)(Math.ceil((double)dist[i]/speed[i]))-1;
+            if(monstersToKillWithTime.get(timeToKill) == null)
+                monstersToKillWithTime.put(timeToKill,1);
+            else
+                monstersToKillWithTime.put(timeToKill, monstersToKillWithTime.get(timeToKill)+1);
+
+            if(timeToKill > maxTime)
+                maxTime = timeToKill;
+
+        }
+
+        // System.out.println(monstersToKillWithTime);
+
+        int killsSoFar = 0;
+        int currentTime = 0;
+        for(int i=0;i<=maxTime; i++){
+            if(monstersToKillWithTime.get(i) == null)
+                continue;
+
+            if(monstersToKillWithTime.get(i) > i-currentTime+1){
+                killsSoFar += i-currentTime+1;
+                break;
+            }
+            else{
+                killsSoFar += monstersToKillWithTime.get(i);
+                currentTime += monstersToKillWithTime.get(i);
+            }
+        }
+
+        return killsSoFar;
+
+    }
+}
