@@ -1,0 +1,56 @@
+class Graph {
+    private List<List<int[]>> graph;
+    public Graph(int n, int[][] edges) {
+        graph=new ArrayList<>();
+        for(int i=0; i<n; i++) {
+            graph.add(new ArrayList<>());
+        }
+        for(int e[]: edges) {
+            int u=e[0];
+            int v=e[1];
+            int w=e[2];
+            graph.get(u).add(new int[]{v, w});
+        }
+    }
+    
+    public void addEdge(int[] edge) {
+        int u=edge[0];
+        int v=edge[1];
+        int w=edge[2];
+        graph.get(u).add(new int[]{v, w});
+    }
+    
+    public int shortestPath(int node1, int node2) {
+        //dijakstra's algorithm
+        Queue<Pair<Integer, Integer>> pq=new PriorityQueue<>((p1, p2)->(p1.getValue()-p2.getValue()));
+        int dist[]=new int[graph.size()];
+        Arrays.fill(dist, Integer.MAX_VALUE);
+        dist[node1]=0;
+        pq.offer(new Pair(node1, dist[node1]));
+        boolean visited[]=new boolean[graph.size()];
+        while(!pq.isEmpty()) {
+            Pair<Integer, Integer> cur=pq.poll();
+            int node=cur.getKey();
+            int curDist=cur.getValue();
+            if(visited[node]) continue;
+            visited[node]=true;
+            if(node==node2) return curDist;
+            for(int neigh[]: graph.get(node)) {
+                int neighNode=neigh[0];
+                int w=neigh[1];
+                if(dist[node]+w<dist[neighNode]) {
+                    dist[neighNode]=dist[node]+w;
+                    pq.offer(new Pair(neighNode, dist[neighNode]));
+                }
+            }
+        }
+        return -1;
+    }
+}
+
+/**
+ * Your Graph object will be instantiated and called as such:
+ * Graph obj = new Graph(n, edges);
+ * obj.addEdge(edge);
+ * int param_2 = obj.shortestPath(node1,node2);
+ */
