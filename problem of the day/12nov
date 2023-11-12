@@ -1,0 +1,47 @@
+class Solution {
+    
+    public int numBusesToDestination(int[][] routes, int source, int target) {
+        //Assigning every stop a set which consists of routes in which that stop somes
+         HashMap<Integer,HashSet<Integer>> toRoutes = new HashMap<>();
+        for(int i=0; i<routes.length; i++) {
+            for(int j : routes[i]) {
+                if(!toRoutes.containsKey(j)) {
+                    toRoutes.put(j,new HashSet<Integer>());   //If our map does't have key of of particular stop we will initialise it
+                }
+                toRoutes.get(j).add(i); //adding route i to stop route[i][j]
+            }
+        }
+
+        //This queue will consists of arrays(stop, (changed buses)busCount)
+        //Its every array's stop will check its all possible routes(from our toRoutes Map) to find the target'
+        Queue<int[]> checkStops = new LinkedList<>();
+        checkStops.add(new int[] {source,0});
+        //If we have Seen a particular stop and we know any of it's route does't takes to our target, then we will not see it again, therefore will store seen stops
+        HashSet<Integer> seen = new HashSet<>();
+        seen.add(source);
+        //If we have checked for an particular route already and, we have not got our target, then obviously we will not check that route again.
+        boolean[] seenRoutes = new boolean[routes.length];
+
+        while(!checkStops.isEmpty()) {
+            int stop = checkStops.peek()[0];
+            int busCount = checkStops.peek()[1];
+            checkStops.remove();
+            if(stop==target) {
+                return busCount;
+            }
+            for(int i : toRoutes.get(stop)) {
+                if(seenRoutes[i]) {
+                    continue;
+                }
+                for(int j: routes[i]) {
+                    if(!seen.contains(j)) {
+                        seen.add(j);
+                        checkStops.add(new int[] {j,busCount + 1});
+                    }
+                }
+               seenRoutes[i] = true;   
+            }
+        }
+       return -1;
+    }
+}
