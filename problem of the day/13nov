@@ -1,0 +1,27 @@
+class Solution {
+    public String sortVowels(String s) {
+        HashSet<Character> set = new HashSet();
+        int[] char1 = new int[1000];
+        set.addAll(Arrays.asList('a','e','i','o','u'));
+        for(char a: s.toCharArray())
+        {
+            if(set.contains(Character.toLowerCase(a)))
+            {
+                char1[a]++;
+            }
+        }
+        char[] res = s.toCharArray();
+        int j = 0;
+        for(int i=0;i<res.length;i++)
+        {
+            if(set.contains(Character.toLowerCase(res[i])))
+            {
+                while(char1[j]==0)
+                    j++;
+                res[i] = (char) j;
+                char1[j]--;
+            }
+        }
+        return new String(res);
+    }
+}
