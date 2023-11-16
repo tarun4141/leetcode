@@ -1,0 +1,33 @@
+import java.util.HashSet;
+
+class Solution {
+    public String findDifferentBinaryString(String[] nums) {
+        HashSet<String> st = new HashSet<>();
+        String[] ans = new String[1];
+        for (String num : nums) st.add(num);
+        solver(st, nums[0].length(), new StringBuilder(), ans);
+        return ans[0];
+    }
+
+    public void solver(HashSet<String> st, int n, StringBuilder sb, String[] ans) {
+        if (sb.length() == n) {
+            String s = sb.toString();
+            if (st.contains(s)) {
+                return;
+            }
+            ans[0] = s;
+            return;
+        }
+        if (sb.length() > n) return;
+
+        // Adding 0:
+        sb.append("0");
+        solver(st, n, sb, ans);
+        sb.deleteCharAt(sb.length() - 1);
+
+        // Adding 1:
+        sb.append("1");
+        solver(st, n, sb, ans);
+        sb.deleteCharAt(sb.length() - 1);
+    }
+}
