@@ -1,0 +1,33 @@
+class Solution {
+    public int garbageCollection(String[] garbage, int[] travel) {
+        for(int i=1; i<travel.length; i++) {
+            travel[i]+=travel[i-1];
+        }
+        int time=0;
+        //for 'M'
+        time+=util(garbage, travel, 'M');
+        time+=util(garbage, travel, 'P');
+        time+=util(garbage, travel, 'G');
+        return time;
+    }
+
+    private int util(String garbage[], int travel[], char type) {
+        int time=0;
+        int lastIndex=-1;
+        for(int i=garbage.length-1; i>=0; i--) {
+            if(garbage[i].indexOf(type)==-1) continue;
+            lastIndex=i;
+            break;
+        }
+        if(lastIndex>0)
+            time+=travel[lastIndex-1];
+        while(lastIndex>=0) {
+            for(char ch: garbage[lastIndex].toCharArray()) {
+                if(ch==type)
+                time++;
+            }
+            lastIndex--;
+        }
+        return time;
+    }
+}
