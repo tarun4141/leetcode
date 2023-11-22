@@ -1,0 +1,25 @@
+class Solution {
+    public int[] findDiagonalOrder(List<List<Integer>> nums) {
+        Map<Integer,List<Integer>> map = new HashMap<>();
+        int n = nums.size();
+        int size=0;int maxSum = 0;
+        for(int i=0;i<n;i++){
+            for(int j=0;j<nums.get(i).size();j++){
+                int sum = i+j;
+                map.putIfAbsent((sum),new ArrayList<>());
+                map.get(sum).add(nums.get(i).get(j));
+                size++;
+                maxSum = Math.max(maxSum,sum);
+            }
+        }
+        int[] ans = new int[size];
+        int k=0;
+        for(int i=0;i<=maxSum;i++){
+            List<Integer> cur = map.get(i);
+            for(int l=cur.size()-1;l>=0;l--){
+                ans[k++] = cur.get(l);
+            }
+        }
+        return ans;
+    }
+}
