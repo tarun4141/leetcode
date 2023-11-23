@@ -1,0 +1,29 @@
+class Solution {
+    public List<Boolean> checkArithmeticSubarrays(int[] nums, int[] l, int[] r) {
+        List<Boolean> ans = new ArrayList<>();
+        
+        int n  = l.length;
+        for(int i=0;i<n;i++){
+            if(check(nums,l[i],r[i])){
+                ans.add(true);
+            }
+            else ans.add(false);
+        }
+        
+        return ans;
+    }
+    
+    private boolean check(int[] nums, int l , int r){
+        List<Integer> temp = new ArrayList<>();
+        for(int i=l;i<=r;i++){
+            temp.add(nums[i]);
+        }
+        Collections.sort(temp);
+        for(int i=1;i<temp.size()-1;i++){
+            if(temp.get(i) - temp.get(i-1) != temp.get(i+1) - temp.get(i)){
+                return false;
+            }
+        }
+        return true;
+    }
+}
