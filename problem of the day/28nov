@@ -1,0 +1,24 @@
+public int numberOfWays(String corridor) {
+        Integer[][] dp = new Integer[3][corridor.length()];
+        return solution(corridor, 0, corridor.length()-1, dp);
+    }
+    public int solution(String corridor, int seats, int index, Integer[][] dp) {
+        if(index < 0)
+            return seats == 2 ? 1 : 0;
+        
+        if(dp[seats][index] != null) return dp[seats][index];
+
+        char ch = corridor.charAt(index);
+
+        if(seats == 2) {
+            if(ch == 'S')
+                return dp[seats][index] = solution(corridor, 1, index-1, dp) % (int) (1e9+7);
+
+            int includePlant = solution(corridor, seats, index-1, dp);
+            int notIncludePlant = solution(corridor, 0, index-1, dp);
+            return dp[seats][index] = (includePlant + notIncludePlant) % (int) (1e9+7);
+        }
+
+        int value = solution(corridor, seats + (ch == 'S' ? 1 : 0), index-1, dp);
+        return dp[seats][index] = value % (int) (1e9+7);
+    }
