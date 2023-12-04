@@ -1,0 +1,18 @@
+class Solution {
+    public String largestGoodInteger(String num) {
+        String str;
+        for(int i = 9;i>=0;i--){
+            if(i==0){
+                str = "000";
+            }else{
+               str = String.valueOf(i*100+i*10+i);
+            }
+            
+            if(num.contains(str)){
+                return str;
+            }
+        }
+        return "";
+        
+    }
+}
