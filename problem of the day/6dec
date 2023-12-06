@@ -1,0 +1,11 @@
+class Solution {
+    public int totalMoney(int n) {
+        int week_count = n/7;
+        int remain_days = n % 7;
+        int total = ((week_count * (week_count - 1))/2) * 7;
+        total += week_count * 28;
+        total += ((remain_days * (remain_days + 1))/2) + (week_count * remain_days);
+        return total;
+        
+    }
+}
