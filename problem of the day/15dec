@@ -1,0 +1,18 @@
+class Solution {
+    public String destCity(List<List<String>> paths) {
+        var map = new HashMap<String, Integer>();
+
+        for(var pair: paths) {
+            var from = pair.get(0);
+            var to = pair.get(1);
+            map.put(from, map.getOrDefault(from, 0) +1);
+            map.put(to, map.getOrDefault(to, 0));
+        }
+        for(var entry: map.entrySet()) {
+            if (entry.getValue() == 0) {
+                return entry.getKey();
+            }
+        }
+        return "";
+    }
+}
