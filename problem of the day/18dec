@@ -1,0 +1,28 @@
+class Solution {
+public:
+    int maxProductDifference(vector<int>& nums) {
+        int lar1=INT_MIN;
+        int lar2=INT_MIN;
+
+        int small1=INT_MAX;
+        int small2=INT_MAX;
+
+        for(auto it:nums){
+            if(it>lar1){
+                lar2=lar1;
+                lar1=it;
+            }
+            else if(it>lar2){
+                lar2=it;
+            }
+            if(it<small1){
+                small2=small1;
+                small1=it;
+            }
+            else if(it<small2){
+                 small2=it;
+            }
+        }
+        return (lar1 * lar2)-(small1*small2);
+    }
+};
