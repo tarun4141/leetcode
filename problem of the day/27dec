@@ -1,0 +1,17 @@
+class Solution {
+    public int minCost(String s, int[] t) {
+        int res=0,offset=1,n=s.length();
+        for(int i=1;i<n;i++){
+            if(s.charAt(i)==s.charAt(i-offset)){
+                if(t[i]>=t[i-offset]){
+                    res+=t[i-offset];offset=1;
+                }
+                else {
+                    res+=t[i];offset+=1;
+                }
+            }
+            else offset=1;
+        }
+        return res;
+    }
+}
