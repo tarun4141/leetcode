@@ -1,0 +1,33 @@
+class Solution {
+    int[][] dp;
+    public int minDifficulty(int[] j, int d) {
+        if(j.length < d){
+            return - 1;
+        }
+        dp = new int[j.length + 1][d + 1];
+        for(int[] x : dp){
+            Arrays.fill(x, -1);
+        }
+        return counnxt(j, 0, d);
+    }
+    int counnxt(int[] j, int i,  int d){
+        if(d == 1){ // last day
+            int count = 0;
+            for(;i < j.length; i++){
+                count = Math.max(count, j[i]);
+            }
+            return count;
+        }
+        if(dp[i][d] != -1){
+            return dp[i][d];
+        }
+        int count = j[i];
+        int cur = Integer.MAX_VALUE;
+        for(int x = i; x <= j.length - d; x++){
+               count = Math.max(j[x], count);
+               cur = Math.min(cur, count + counnxt(j, x + 1, d - 1));
+        }
+        dp[i][d] = cur;
+        return cur;
+    }
+}
