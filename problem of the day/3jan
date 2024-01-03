@@ -1,0 +1,17 @@
+class Solution {
+    public int numberOfBeams(String[] bank) {
+        int lrl=0,cl=0,n=bank.length,m=bank[0].length(),ans = 0;
+        for(int i=0;i<n;i++){
+            cl=0;
+            for(int j=0;j<m;j++){
+                if (bank[i].charAt(j) == '1')
+                cl++;
+            }
+            ans+=cl*lrl;
+            if(cl>0)
+                lrl=cl;
+        }
+        return ans;
+        
+    }
+}
