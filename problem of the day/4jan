@@ -1,0 +1,21 @@
+class Solution {
+    public int minOperations(int[] n) {
+        Arrays.sort(n);
+        int r=0;
+        int s=0;
+        while(s<n.length){
+            int e= s;
+            while(e<n.length &&n[s] == n[e]){
+                e++;
+
+            }
+            int c=e-s;
+            if ( c==1) return -1;
+            r+= c/3;
+            if(c%3!=0) r++;
+            s=e;
+        }
+        return r;
+        
+    }
+}
