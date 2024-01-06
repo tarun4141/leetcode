@@ -1,0 +1,68 @@
+class Solution {
+    class Pair implements Comparable<Pair> {
+        int startTime;
+        int endTime;
+        int profit;
+
+        Pair(int startTime, int endTime, int profit) {
+            this.startTime = startTime;
+            this.endTime = endTime;
+            this.profit = profit;
+        }
+
+        public int compareTo(Pair a) {
+            if(this.startTime != this.endTime)
+                return this.startTime - a.startTime;
+            return this.endTime - a.endTime;
+        }
+
+    }
+
+    public int jobScheduling(int[] startTime, int[] endTime, int[] profit) {
+        List<Pair> list = new ArrayList<>();
+        for(int i=0;i<startTime.length;i++){
+            list.add(new Pair(startTime[i], endTime[i], profit[i]));
+        }
+        Collections.sort(list);
+        for(int i=0;i<list.size();i++){
+            startTime[i] = list.get(i).startTime;
+            endTime[i] = list.get(i).endTime;
+            profit[i] = list.get(i).profit;
+        }
+        int[] dp = new int[startTime.length];
+        Arrays.fill(dp, -1);
+        return jobScheduling(startTime, endTime, profit, 0, dp);
+    }
+
+    public int jobScheduling(int[] startTime, int[] endTime, int[] profit, int idx, int[] dp) {
+        if (idx == startTime.length) {
+            return 0;
+        }
+        if(dp[idx] != -1)
+            return dp[idx];
+        int take = 0;
+        int notTake = 0;
+        int nextIdx = search(startTime, endTime[idx]);
+
+        take = profit[idx] + jobScheduling(startTime, endTime, profit, nextIdx, dp);
+        notTake = jobScheduling(startTime, endTime, profit, idx + 1, dp);
+
+        return dp[idx] = Math.max(take, notTake);
+    }
+
+    public int search(int[] startTime, int val) {
+        int low = 0;
+        int high = startTime.length - 1;
+        int ans = startTime.length;
+        while (low <= high) {
+            int mid = (low + high) / 2;
+            if (startTime[mid] >= val) {
+                ans = mid;
+                high = mid - 1;
+            } else {
+                low = mid + 1;
+            }
+        }
+        return ans;
+    }
+}
