@@ -1,0 +1,13 @@
+class Solution {
+    int sum=0;
+    public void get_sum(TreeNode root,int low,int high){
+        if(root==null) return;
+        if(root.val>=low && root.val<=high) sum+=root.val;
+        get_sum(root.left,low,high);
+        get_sum(root.right,low,high);
+    }
+    public int rangeSumBST(TreeNode root, int low, int high) {
+        get_sum(root,low,high);
+        return sum;
+	   }
+   }
