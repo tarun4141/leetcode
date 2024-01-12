@@ -1,0 +1,31 @@
+class Solution {
+    public boolean halvesAreAlike(String s) {
+        // Get the length of the string
+        int length = s.length();
+        
+        // Define a string containing all vowels (both lowercase and uppercase)
+        String vowels = "aeiouAEIOU";
+        
+        // Initialize a counter to keep track of the vowel count difference between the two halves
+        int count = 0;
+
+        // Iterate through the first half of the string
+        for (int i = 0; i < length / 2; i++) {
+            // Check if the current character in the first half is a vowel
+            if (vowels.indexOf(s.charAt(i)) != -1) {
+                // If it is, increment the count
+                count++;
+            }
+
+            // Check if the corresponding character in the second half is a vowel
+            if (vowels.indexOf(s.charAt(i + length / 2)) != -1) {
+                // If it is, decrement the count
+                count--;
+            }
+        }
+
+        // If count is zero, the two halves have the same number of vowels
+        // Otherwise, they do not have the same number of vowels
+        return count == 0;
+    }
+}
