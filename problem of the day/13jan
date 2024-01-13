@@ -1,0 +1,48 @@
+public int minSteps(String s, String t) {
+    Map<Character,Integer> sh=new  HashMap<Character,Integer>();
+    Map<Character,Integer> st=new  HashMap<Character,Integer>();
+    
+    for(int i=0;i<s.length();i++){
+       if(sh.containsKey(s.charAt(i)))
+       {
+           sh.put(s.charAt(i),sh.get(s.charAt(i))+1);
+       }
+        else{
+             sh.put(s.charAt(i),1);
+        }
+        
+        if(st.containsKey(t.charAt(i)))
+       {
+           st.put(t.charAt(i),st.get(t.charAt(i))+1);
+       }
+        else{
+             st.put(t.charAt(i),1);
+        }
+    }
+    int diff=0;
+  for (Map.Entry<Character, Integer> entry : sh.entrySet()) {
+      int sts=0;
+      if(st.containsKey(entry.getKey()))
+      {
+           sts=st.get(entry.getKey());
+           diff=diff+Math.abs(sts-entry.getValue());
+      }
+      else{
+           diff=diff+entry.getValue();
+      
+	  
+	  }
+	  
+	  
+       
+  }
+    
+    for (Map.Entry<Character, Integer> entry : st.entrySet()) {
+      int sts=0;
+      if(!sh.containsKey(entry.getKey()))
+      {
+          diff=diff+entry.getValue();
+          
+      }
+       
+  }
