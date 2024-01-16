@@ -1,0 +1,90 @@
+class RandomizedSet {
+    class Node{
+        int value;
+        Node next;
+
+        Node(int value){
+            this.value = value;
+        }
+    }
+    Node[] nums;
+    int capacity = 16;
+    int size = 0;
+
+    public RandomizedSet() {
+        nums = new Node [capacity];
+    }
+    
+    public boolean insert(int val) {
+        int bucket = hash(val);
+        Node node = nums[bucket];
+
+        if(node==null){
+            nums[bucket] = new Node(val);
+            size++;
+            return true;
+        }
+        
+        Node prev = node;
+        while(node!=null){
+            if(node.value == val){
+                return false;
+            }
+            prev = node;
+            node = node.next;
+        }
+        prev.next = new Node(val);
+        size++;
+        return true;
+    }
+    
+    public boolean remove(int val) {
+        int bucket = hash(val);
+        Node node = nums[bucket];
+
+        if(node==null){
+            return false;
+        }
+        
+        if(node.value == val){
+            nums[bucket] = node.next;
+            size--;
+            return true;
+        }
+
+        Node prev = node;
+        while(node!=null){
+            if(node.value==val){
+                prev.next = node.next;
+                size--;
+                return true;
+            }
+            prev = node;
+            node = node.next;
+        }
+        return false;
+    }
+    
+    public int getRandom() {
+        int random = new Random().nextInt(size);
+        int pointer = 0;
+        for(int i=0; i<nums.length; i++){
+            Node node = nums[i];
+            while(node!=null){
+                if(pointer==random){
+                    return node.value;
+                }
+                pointer++;
+                node = node.next;
+            }
+        }
+        return -1;
+    }
+
+    private int hash(int value){
+        if(value < 0){
+            value *= -1;
+        }
+        return value%capacity;
+    }
+}
