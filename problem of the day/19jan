@@ -1,0 +1,22 @@
+class Solution {
+    public int minFallingPathSum(int[][] dp) {
+        int n = dp.length, max = n - 1;
+        int min = Integer.MAX_VALUE;
+
+        for(int i = 1, ii = 0; i < n; ++i, ++ii){
+            for(int j = 0; j < n; ++j){
+                int currMin = dp[ii][j];
+                if(j != 0) currMin = Math.min(currMin, dp[ii][j-1]);
+                if(j != max) currMin = Math.min(currMin, dp[ii][j+1]);
+                dp[i][j] = currMin + dp[i][j];
+            }
+        }
+
+        for(int j = 0; j < n ; ++j) min = Math.min(min, dp[max][j]);
+
+        return min;
+
+    }
+
+    
+}
