@@ -1,0 +1,64 @@
+class Solution {
+    public int sumSubarrayMins(int[] arr) {
+    final int kMod = 1_000_000_007;
+    final int n = arr.length;
+    long ans = 0;
+
+    int[] prevMin = new int[n];
+    int[] nextMin = new int[n];
+    Deque<Integer> stack = new ArrayDeque<>();
+
+    Arrays.fill(prevMin, -1);
+    Arrays.fill(nextMin, n);
+
+    for (int i = 0; i < arr.length; ++i) {
+      while (!stack.isEmpty() && arr[stack.peek()] > arr[i]) {
+        final int index = stack.pop();
+        nextMin[index] = i;
+      }
+      if (!stack.isEmpty())
+        prevMin[i] = stack.peek();
+      stack.push(i);
+    }
+
+    for (int i = 0; i < arr.length; ++i) {
+      ans += (long) arr[i] * (i - prevMin[i]) * (nextMin[i] - i);
+      ans %= kMod;
+    }
+
+    return (int) ans;
+  }
+}
+
+
+
+
+// I also used this ifbut getting error in just 1 testcase if anyone ///can let me know why 
+
+
+
+class Solution {
+    public int sumSubarrayMins(int[] arr) {
+        final int kMod = 1_000_000_007;
+        long sum = 0;
+        int prevCount = 0,nextCount = 0;
+
+        for(int i = 0;i < arr.length;i++){
+            int indP = i-1 , indN = i+1;
+            prevCount = 0;
+            nextCount = 0;
+            while(indP >=0 && arr[i] < arr[indP]){
+                prevCount+=1;
+                indP--;
+            }
+            while(indN < arr.length && arr[i] <= arr[indN]){
+                nextCount+= 1;
+                indN++;
+            }
+            sum += ((prevCount + 1) * (nextCount + 1) % kMod) * arr[i];
+            sum %= kMod;
+        }
+
+        return (int)sum;
+    }
+}
