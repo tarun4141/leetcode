@@ -1,0 +1,29 @@
+class Solution {
+    public int rob(int[] nums) {
+        // f(i) how much is the highest price to steal till ith house including ith
+        // g(i) how much is the highest price to steal till ith house excluedind ith
+
+        //  2  7  9  3    1
+    //in    2  7  11  10. 12
+    //ex    0  2.  7  11   11
+        if (nums == null || nums.length == 0) {
+            return 0;
+        }
+        final int n = nums.length;
+        if (n == 1) {
+            return nums[0];
+        }
+        final int[] in = new int[n];
+        final int[] ex = new int[n];
+        in[0] = nums[0];
+        ex[0] = 0;
+        int max = nums[0];
+        for(int i = 1; i < n; i++) {
+            
+            in[i] = ex[i - 1] + nums[i];
+            ex[i] = Math.max(in[i - 1], ex[i - 1]);
+            max = Math.max(max, Math.max(in[i], ex[i]));
+        }
+        return max;
+    }
+}
